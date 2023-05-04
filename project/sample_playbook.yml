@@ -1,0 +1,7 @@
+---
+- name: Install open5gs using role
+  hosts: open5gs:ueransim
+  # connection: local
+  become: true
+  roles:
+    - install_sim

@@ -1,3 +1,2 @@
 ---
-# Maybe this can be put to a separate file
-ueransim_clone_dest: "/home/{{ ansible_ssh_user }}/UERANSIM"
+foo: "bar"

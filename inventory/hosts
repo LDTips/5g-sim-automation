@@ -2,7 +2,7 @@
 192.168.56.101 ansible_ssh_user=ansible-testing ansible_ssh_private_key_file="/home/runner/.ssh/id_rsa" # ansible_sudo_pass
 
 [my_host]
-localhost ansible_ssh_user=slawek ansible_ssh_common_args='-o StrictHostKeyChecking=no' # ansibl_shh_pass
+localhost ansible_ssh_user=slawek ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [open5gs]
 open5gs1 ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.102

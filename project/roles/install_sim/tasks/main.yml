@@ -1,8 +1,8 @@
 ---
 # tasks file for test_role
-- name: For debug purposes, print inventory inventory_hostname
-  debug:
-    msg: 'The value is {{ inventory_hostname }}'
+- name: For debug purposes, print inventory_hostname and foo var
+  ansible.builtin.debug:
+    msg: 'Inventory hostname is {{ inventory_hostname }} foo is {{ foo }}'
   
 - name: Install Open5gs for the machines designed for Open5gs
   include_tasks: open5gs.yml

@@ -13,8 +13,9 @@ class CustomSubWindow:
         self.ext_handler = ext_handler
         # Main sub_window object that has the root as the parent
         self.sub_window = tk.Toplevel(self.tk_parent.winfo_toplevel())
+        self.sub_window.grab_set()
         self.sub_window.title("Custom VM")
-        self.sub_window.geometry('250x250')
+        self.sub_window.geometry('300x150')
         self.ico = tk.PhotoImage(file='icons/1827789.png')
         self.sub_window.iconphoto(False, self.ico)
         # Combobox to choose the vm type
@@ -22,7 +23,7 @@ class CustomSubWindow:
         self.vm_type = ttk.Combobox(self.sub_window, textvariable=self.vm_type_str, state='readonly')
         self.vm_type.config(values=("Open5Gs", "UERANSIM"))
         self.vm_type.current(0)  # Default value (Open5Gs) to be shown when the box is initialised
-        self.vm_type.grid(row=0, column=0)
+        self.vm_type.grid(row=0, column=0, padx=5)
         # If a selection is made on the combobox, run the _disable_button method that will disable the button if needed
         self.vm_type.bind('<<ComboboxSelected>>', lambda event: self._update_button(event))
 
@@ -33,7 +34,7 @@ class CustomSubWindow:
 
         self.submit_vm = ttk.Button(self.sub_window, text='add vm', command=self._submit_single_vm)
         # ipad extends the button, as it pads internally. Pad pads externally, so the button won't stick to window edges
-        self.submit_vm.grid(row=0, column=1, columnspan=2, rowspan=2, ipadx=10, ipady=10, padx=5, pady=2)
+        self.submit_vm.grid(row=0, column=1, columnspan=2, rowspan=2, ipadx=5, ipady=15, padx=5, pady=2)
 
         self.custom_config = []
 
@@ -123,6 +124,8 @@ class Notebook:
     # tk_Parent should be the root window
     def __init__(self, tk_parent: tk.Tk, resize_handler):
         self.tk_parent = tk_parent
+        # resize_handler is the MainApp method that will resize the window based on the tab chosen.
+        # It is called by self._resize_window
         self.resize_handler = resize_handler
         self.notebook = ttk.Notebook(self.tk_parent)
 
@@ -136,15 +139,13 @@ class Notebook:
 
         self.tab_predefined = TabPredefined(self.tab1)
         self.tab_custom = TabCustom(self.tab2)
-
-        self.notebook.bind('<<NotebookTabChanged>>', self._foo)
+        # Event that will call the earlier mentioned resize handler
+        self.notebook.bind('<<NotebookTabChanged>>', self._resize_window)
         # self.notebook.bind('<ButtonRelease-2>', self._foo)
 
-    def _foo(self, _):
+    def _resize_window(self, _):
         current_tab = self.notebook.index(self.notebook.select())
         self.resize_handler(current_tab)
-        print('bar' + str(current_tab))
-        print(f'height: {self.tk_parent.winfo_toplevel().winfo_height()} width: {self.tk_parent.winfo_toplevel().winfo_width()}')
 
 
 class MainApp:
@@ -170,14 +171,17 @@ class MainApp:
         var_dict["predefined"] = self.notebook.tab_predefined.is_chosen
         if var_dict["predefined"]:
             var_dict["predefined_type"] = self.notebook.tab_predefined.chosen_type.get()
+        # Checking if new window object exists is just a sanity check. Checking var_dict["custom"] is probably enough
         if hasattr(self.notebook.tab_custom, 'new_window') and var_dict["custom"]:
             var_dict["custom_type"] = self.notebook.tab_custom.new_window.custom_config
 
     def _resize_handler(self, current):
+        # current == 0 means that the first tab (predefined) is chosen
         if current == 0:
             self.root.geometry('550x200')
+        # if current == 1; custom tab is chosen
         else:
-            self.root.geometry('200x300')
+            self.root.geometry('250x300')
 
 
 class DisplayApp:

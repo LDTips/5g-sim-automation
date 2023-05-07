@@ -1,0 +1,39 @@
+---
+- name: Fetch required dependencies
+  block:
+    - name: Fetch dependencies from apt
+      ansible.builtin.apt:
+        pkg:
+        - dialog
+        - apt-utils
+        - build-essential
+        - libsctp-dev
+        - lksctp-tools
+        - iproute2
+        - g++
+        update_cache: yes
+        state: present
+    - name: Fetch cmake from snap
+      community.general.snap:
+        name: cmake
+        classic: true
+- name: Show clone_dest value
+  ansible.builtin.debug:
+    msg: "{{ clone_dest }}"
+- name: Clone UERANSIM git repo
+  ansible.builtin.git:
+    repo: https://github.com/aligungr/UERANSIM
+    dest: {{ clone_dest }}
+    clone: yes
+
+- name: Compile the UERANSIM src code with Make
+  community.general.make:
+    chdir: {{ clone_dest }}
+# Maybe this should be put into separate tasks file?
+- name: Change the machine hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Restart the machine
+  ansible.builtin.reboot:
+    

@@ -1,0 +1,13 @@
+---
+- name: Check some things on the local execution env
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Check ansible ansible version
+      ansible.builtin.shell:
+        "ansible --version"
+      register: output
+    - name: Display command output
+      ansible.builtin.debug:
+        msg: " {{ output.stdout }}"

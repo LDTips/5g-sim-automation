@@ -1,0 +1,55 @@
+---
+# Tasks for installing mongodb
+# if apt-key is not present, the following should be used:
+# - name: Add singing key for Mongodb without apt-key
+#   ansible.builtin.get_url:
+#     url: https://www.mongodb.org/static/pgp/server-4.4.asc 
+#     dest: /etc/apt/trusted.asc # or /etc/apt/trusted.gpg..d/trusted.asc
+#     # Refer to https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_key_module.html
+- name: Add Apt signing key for Mongodb
+  ansible.builtin.apt_key:
+    url: https://www.mongodb.org/static/pgp/server-4.4.asc 
+    state: present
+- name: Add mongodb repository
+  ansible.builtin.apt_repository:
+    repo: "deb [ arch=amd64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse"
+    state: present
+- name: Update cache and install mongodb
+  ansible.builtin.apt:
+    name: mongodb-org
+    state: present
+    update_cache: yes
+
+- name: Start mongodb daemon
+  ansible.builtin.systemd:
+    name: mongod.service
+    state: started
+  register: mongod_info
+# - name: Debug print the state of the daemon
+#   debug:
+#     msg: "{{ mongod_info.status['ActiveState'] }}"
+- name: Wait 3s for mongodb daemon to start
+  ansible.builtin.pause:
+    seconds: 3
+- name: Register mongod status
+  ansible.builtin.systemd:
+    name: mongod
+  register: mongod_info
+- name: Check mongodb daemon
+  block:
+    - name: Invoke mongod fixer if daemon doesn't work
+      # ansible.builtin.systemd:
+      #   name: mongod.service
+      # register: mongod_info
+      fail:
+        msg: "Daemon not working!"
+      when: mongod_info.status['ActiveState'] != 'active'
+  rescue: # TODO
+    - name: Do some foo king stuff
+      debug:
+        msg: I'm at the bar
+- name: Make mongod autostart
+  ansible.builtin.systemd:
+    name: mongod
+    enabled: true
+    masked: false

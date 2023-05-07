@@ -1,0 +1,51 @@
+---
+# Tasks for open5gs installation
+- name: Install basic packages and update repo cache
+  ansible.builtin.apt:
+    pkg:
+    - dialog
+    - apt-utils
+    - software-properties-common
+    - gnupg
+    update_cache: yes
+    state: present
+
+- name: Add open5gs ppa repository
+  ansible.builtin.apt_repository:
+    repo: ppa:open5gs/latest
+
+- name: Install mongodb if needed
+  #include_tasks: mongodb.yml
+  include_tasks: mongodb.yml
+  when: install_mongodb == true
+
+- name: Install Open5gs
+  ansible.builtin.apt:
+    name: open5gs
+    state: present
+
+- name: Find Open5gs services
+  ansible.builtin.find:
+    paths: "/etc/systemd/system/multi-user.target.wants"
+    # paths: "/home/open5gs-ansible/test_del"
+    patterns: '*open5gs*'
+    # patterns: '*file*'
+    # file_type: link  # services in the folder are symlinks
+  register: open5gs_services
+
+# https://github.com/ansible/ansible/issues/77934 - if loop variable is empty, the task will not print any output
+# Should be "skipped" or "ok" if the loop doesn't execute at all
+- name: Remove Open5gs services from autostart
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ open5gs_services.files }}"
+  when: open5gs_services.files | length > 0
+
+- name: Change the machine hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Restart the machine
+  ansible.builtin.reboot:
+    

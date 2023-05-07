@@ -15,10 +15,12 @@ Preconfigured sim scenarios have configuration done automatially
 ### Technical implementation details
 The GUI itself is implemented in Tkinter using object oriented approach.
 
+
 When the GUI window is launched, user will enter some data and after clicking submit in either of the two categories (predefined, custom),
 a 'var_array' will be filled with with the information user has input. 
 
 Based on that, Ansible playbooks will be launched with proper configuration and variables to create and configure VMs as the user requested.
+
 
 ## Ansible automation
 Still evolving ansible role that so far has tasks for installing Open5Gs, MongoDB and UERANSIM.

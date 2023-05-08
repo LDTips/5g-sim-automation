@@ -17,18 +17,15 @@
       community.general.snap:
         name: cmake
         classic: true
-- name: Show clone_dest value
-  ansible.builtin.debug:
-    msg: "{{ clone_dest }}"
 - name: Clone UERANSIM git repo
   ansible.builtin.git:
-    repo: https://github.com/aligungr/UERANSIM
-    dest: {{ clone_dest }}
+    repo: "https://github.com/aligungr/UERANSIM"
+    dest: "{{ clone_dest }}"
     clone: yes
 
 - name: Compile the UERANSIM src code with Make
   community.general.make:
-    chdir: {{ clone_dest }}
+    chdir: "{{ clone_dest }}"
 # Maybe this should be put into separate tasks file?
 - name: Change the machine hostname
   ansible.builtin.hostname:
@@ -36,4 +33,5 @@
 
 - name: Restart the machine
   ansible.builtin.reboot:
-    
+    pre_reboot_delay: 5 # Included due to a hang on restart (TODO test if it was one time occurence)
+    reboot_timeout: 180 # Wait at most 3 minutes, otherwise it probably hung

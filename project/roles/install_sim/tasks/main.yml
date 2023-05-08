@@ -8,6 +8,11 @@
   include_tasks: open5gs.yml
   when: "'open5gs' in group_names" # inventory_hostname == "something"
 
+- name: Show clone_dest value
+  ansible.builtin.debug:
+    msg: "{{ clone_dest }}"
+  when: "'ueransim' in group_names"
+  
 - name: Install UERANSIM for the machines designed for UERANSIM
   include_tasks: ueransim.yml
   when: "'ueransim' in group_names"

@@ -24,6 +24,19 @@
     name: open5gs
     state: present
 
+- name: Separately download Open5gs database cli tool
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/open5gs/open5gs/main/misc/db/open5gs-dbctl
+    dest: /usr/bin/open5gs-dbctl
+    mode: '0666'
+
+- name: Template amf config file
+  ansible.builtin.template:
+    src: /open5gs/amf.yaml.j2
+    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/amf.yaml"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0333'
+    
 - name: Find Open5gs services
   ansible.builtin.find:
     paths: "/etc/systemd/system/multi-user.target.wants"
@@ -48,4 +61,4 @@
 
 - name: Restart the machine
   ansible.builtin.reboot:
-    
+    reboot_timeout: 180

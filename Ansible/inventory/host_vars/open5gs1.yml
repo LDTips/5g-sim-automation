@@ -1,2 +1,26 @@
 ---
 install_mongodb: true
+upf:
+  gtpu:
+    addr: "{{ ansible_host }}"
+amf:
+  ngap:
+    addr: "{{ ansible_host }}"
+# TODO - Maybe mcc and mnc is the same across the whole config.
+# Then we can just change the template to not repeat ourselves here
+  guami:
+    plmn_id:
+      mcc: 999
+      mnc: 99
+  tai:
+    plmn_id:
+      mcc: 999
+      mnc: 99
+  plmn_support:
+    plmn_id:
+      mcc: 999
+      mnc: 99
+
+configs:
+  - 'amf'
+  - 'upf'

@@ -1,5 +1,5 @@
 ---
-- name: Install open5gs using role
+- name: Launch install_sim role
   hosts: open5gs
   # connection: local
   become: true

@@ -1,7 +1,18 @@
 ---
-- name: Template amf config file
+- name: Template specified config files for Open5gs
   ansible.builtin.template:
-    src: open5gs/amf.yaml.j2
-    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/amf.yaml"
+    src: "open5gs/{{ item }}.yaml.j2"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/{{ item }}.yaml"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0666'
+  loop: "{{ configs }}"
+  when: "'open5gs' in group_names"
+
+- name: Template specified config files for UERANSIM
+  ansible.builtin.template:
+    src: "ueransim/open5gs-{{ item }}.yaml.j2"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/{{ item }}.yaml"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0666'
+  loop: "{{ configs }}"
+  when: "'ueransim' in group_names"

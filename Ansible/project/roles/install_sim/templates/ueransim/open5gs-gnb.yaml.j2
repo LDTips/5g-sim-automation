@@ -3,11 +3,11 @@ mnc: '{{ gnb.mnc | default('70') }}'          # Mobile Network Code value (2 or 
 
 nci: '{{ gnb.nci | default('0x000000010') }}'  # NR Cell Identity (36-bit)
 idLength: {{ gnb.idLength | default(32) }}        # NR gNB ID length in bits [22...32]
-tac: {{ gnb.tac | defeault(1) }}                # Tracking Area Code
+tac: {{ gnb.tac | default(1) }}                # Tracking Area Code
 
 linkIp: {{ gnb.linkIp | default('127.0.0.1') }}   # gNB's local IP address for Radio Link Simulation (Usually same with local IP)
 ngapIp: {{ gnb.ngapIp | default('127.0.0.1') }}    # gNB's local IP address for N2 Interface (Usually same with local IP)
-gtpIp: {{ gnb.linkIp | default('127.0.0.1') }}    # gNB's local IP address for N3 Interface (Usually same with local IP)
+gtpIp: {{ gnb.gtpIp | default('127.0.0.1') }}    # gNB's local IP address for N3 Interface (Usually same with local IP)
 
 # List of AMF address information
 amfConfigs:

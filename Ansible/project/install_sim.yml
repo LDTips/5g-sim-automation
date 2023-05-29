@@ -1,6 +1,6 @@
 ---
 - name: Launch install_sim role
-  hosts: open5gs
+  hosts: ueransim
   # connection: local
   become: true
   roles:

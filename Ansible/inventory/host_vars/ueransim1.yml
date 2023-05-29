@@ -13,3 +13,7 @@ ue:
   supi: 'imsi-999990000000001'
   mcc: 999
   mnc: 99
+
+configs:
+  - 'gnb'
+  - 'ue'

@@ -28,14 +28,7 @@
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/open5gs/open5gs/main/misc/db/open5gs-dbctl
     dest: /usr/bin/open5gs-dbctl
-    mode: '0666'
-
-- name: Template amf config file
-  ansible.builtin.template:
-    src: /open5gs/amf.yaml.j2
-    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/amf.yaml"
-    owner: "{{ ansible_env.SUDO_USER }}"
-    mode: '0333'
+    mode: '0555'
     
 - name: Find Open5gs services
   ansible.builtin.find:
@@ -43,7 +36,7 @@
     # paths: "/home/open5gs-ansible/test_del"
     patterns: '*open5gs*'
     # patterns: '*file*'
-    # file_type: link  # services in the folder are symlinks
+    file_type: link  # services in the folder are symlinks
   register: open5gs_services
 
 # https://github.com/ansible/ansible/issues/77934 - if loop variable is empty, the task will not print any output

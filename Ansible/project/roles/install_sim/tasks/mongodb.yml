@@ -8,11 +8,11 @@
 #     # Refer to https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_key_module.html
 - name: Add Apt signing key for Mongodb
   ansible.builtin.apt_key:
-    url: https://www.mongodb.org/static/pgp/server-4.4.asc 
+    url: https://www.mongodb.org/static/pgp/server-6.0.asc 
     state: present
 - name: Add mongodb repository
   ansible.builtin.apt_repository:
-    repo: "deb [ arch=amd64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse"
+    repo: "deb [ arch=amd64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse"
     state: present
 - name: Update cache and install mongodb
   ansible.builtin.apt:

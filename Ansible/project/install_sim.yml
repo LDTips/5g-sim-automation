@@ -5,3 +5,9 @@
   become: true
   roles:
     - install_sim
+
+- name: Launch install ueransim role
+  hosts: ueransim
+  become: true
+  roles:
+    - install_ueransim

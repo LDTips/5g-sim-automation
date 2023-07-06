@@ -1,5 +1,0 @@
----
-# Sample foo tasks
-- name: I am a foo fighter!
-  debug:
-    msg: "What if I say I'm not like the others"

@@ -23,3 +23,5 @@
     dest: "/home/{{ ansible_env.SUDO_USER }}/start_sim.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0555'
+  # vars:
+    # some_var_name: override_value

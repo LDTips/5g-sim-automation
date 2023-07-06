@@ -1,9 +1,9 @@
 # IMSI number of the UE. IMSI = [MCC|MNC|MSISDN] (In total 15 digits)
 supi: '{{ ue.supi | default('imsi-999700000000001') }}'
 # Mobile Country Code value of HPLMN
-mcc: '{{ ue.mcc | default('999') }}'
+mcc: '{{ mcc | default('999') }}'
 # Mobile Network Code value of HPLMN (2 or 3 digits)
-mnc: '{{ ue.mnc | default('70')}}'
+mnc: '{{ mnc | default('70')}}'
 # Routing Indicator
 routingIndicator: '0000'
 
@@ -22,7 +22,9 @@ imeiSv: '{{ ue.imeiSv | default('4370816125816151') }}'
 
 # List of gNB IP addresses for Radio Link Simulation
 gnbSearchList:
-  - 127.0.0.1
+  {% for gnb_ip in ue.gnb_ips | default(['127.0.0.1'])-%}
+    - addr: {{ gnb_ip }}
+    {% endfor %}
 
 # UAC Access Identities Configuration
 uacAic:

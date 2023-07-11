@@ -34,4 +34,4 @@
 - name: Restart the machine
   ansible.builtin.reboot:
     pre_reboot_delay: 5 # Included due to a hang on restart (TODO test if it was one time occurence)
-    reboot_timeout: 180 # Wait at most 3 minutes, otherwise it probably hung
+    reboot_timeout: 180 # Wait at most 3 minutes, otherwise it probably hung and manual interaction is required

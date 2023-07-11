@@ -1,16 +1,7 @@
 ---
-# tasks file for test_role
-- name: For debug purposes, print inventory_hostname and foo var
-  ansible.builtin.debug:
-    msg: 'Inventory hostname is {{ inventory_hostname }} foo is {{ foo }}'
-  
-# - name: Install Open5gs for the machines designed for Open5gs
-#   include_tasks: open5gs.yml
-#   when: "'open5gs' in group_names" # inventory_hostname == "something"
-  
-# - name: Install UERANSIM for the machines designed for UERANSIM
-#   include_tasks: ueransim.yml
-#   when: "'ueransim' in group_names"
+# tasks file for install_open5gs role
+- name: Install Open5gs for the machines designed for Open5gs
+  include_tasks: open5gs.yml
 
 - name: Launch templating playbook for testing
   include_tasks: template_testing.yml

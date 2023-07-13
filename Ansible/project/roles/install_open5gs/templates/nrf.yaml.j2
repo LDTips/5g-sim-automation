@@ -1,5 +1,5 @@
 logger:
-    file: /var/log/open5gs/nrf.log
+    file: /var/log/open5gs/{{ nrf.log_filename | default ('nrf.log') }}
 sbi:
     server:
       no_tls: true

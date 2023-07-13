@@ -1,15 +1,15 @@
 logger:
-    file: /var/log/open5gs/upf.log
+    file: /var/log/open5gs/{{ upf.log_filename | default ('upf.log') }}
 upf:
     pfcp:
       - addr: 127.0.0.7
     gtpu:
       - addr: {{ upf.gtpu_ip | default('127.0.0.7') }}
     subnet:
-      {% for conf in upf.subnet_confs | default([['10.45.0.1/16', 'internet', 'ogstun']])-%}
-      - addr: {{ conf[0] }}
-        dnn: {{ conf[1] }}
-        dev: {{ conf[2] }}
+      {% for conf in upf.subnet_confs | default([{'addr': '10.45.0.1/16', 'dnn': 'internet', 'dev': 'ogstun'}]) -%}
+      - addr: {{ conf.addr }}
+        dnn: {{ conf.dnn }}
+        dev: {{ conf.dev }}
       {% endfor %}
     metrics:
       - addr: 127.0.0.7

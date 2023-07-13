@@ -1,5 +1,5 @@
 logger:
-    file: /var/log/open5gs/udm.log
+    file: /var/log/open5gs/{{ udm.log_filename | default ('udm.log') }}
 sbi:
     server:
       no_tls: true

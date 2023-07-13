@@ -1,5 +1,5 @@
 logger:
-    file: /var/log/open5gs/nssf.log
+    file: /var/log/open5gs/{{ nssf.log_filename | default ('nssf.log') }}
 sbi:
     server:
       no_tls: true
@@ -16,10 +16,13 @@ nssf:
       - addr: 127.0.0.14
         port: 7777
     nsi:
-      - addr: 127.0.0.10
+      {% for conf in nssf.nsi | default([{'addr': '127.0.0.10', 'sst': 1}]) -%}
+      - addr: {{ conf.addr }}
         port: 7777
         s_nssai:
-          sst: 1
+          sst: {{ conf.sst }}
+          {% if conf.sd %}sd: {{ conf.sd }} {% endif %}
+      {% endfor %}
 scp:
     sbi:
       - addr: 127.0.1.10

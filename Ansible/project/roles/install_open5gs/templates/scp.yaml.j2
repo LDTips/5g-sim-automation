@@ -1,6 +1,6 @@
 db_uri: mongodb://localhost/open5gs
 logger:
-    file: /var/log/open5gs/scp.log
+    file: /var/log/open5gs/{{ scp.log_filename | default ('scp.log')}}
 sbi:
     server:
       no_tls: true

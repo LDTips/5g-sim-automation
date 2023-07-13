@@ -1,5 +1,5 @@
 logger:
-    file: /var/log/open5gs/bsf.log
+    file: /var/log/open5gs/{{ bsf.log_filename | default ('bsf.log') }}
 sbi:
     server:
       no_tls: true

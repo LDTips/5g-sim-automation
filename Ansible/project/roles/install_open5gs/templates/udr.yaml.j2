@@ -1,6 +1,6 @@
 db_uri: mongodb://localhost/open5gs
 logger:
-    file: /var/log/open5gs/udr.log
+    file: /var/log/open5gs/{{ udr.log_filename | default ('udr.log') }}
 sbi:
     server:
       no_tls: true

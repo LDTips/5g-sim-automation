@@ -1,5 +1,5 @@
 logger:
-    file: /var/log/open5gs/smf.log
+    file: /var/log/open5gs/{{ smf.log_filename | default ('smf.log')}}
 sbi:
     server:
       no_tls: true
@@ -14,6 +14,7 @@ sbi:
 smf:
     sbi:
       - addr: {{smf.sbi_ip | default '127.0.0.4'}}
+
         port: 7777
     pfcp:
       - addr: {{smf.pfcp_ip | default '127.0.0.4'}}
@@ -25,29 +26,42 @@ smf:
       - addr: {{smf.metrics_ip | default '127.0.0.4'}}
         port: 9090
     subnet:
-      {% for conf in smf.subnet_confs | default([['10.45.0.1/16', 'internet']]) -%}
-      - addr: {{ conf[0] }}
-        dnn: {{ conf[1] }}
+      {% for conf in smf.subnet_confs | default([{'addr': '10.45.0.1/16', 'dnn':'internet'}]) -%}
+      - addr: {{ conf.addr }}
+        dnn: {{ conf.dnn }}
       {% endfor %}
     dns:
       - 8.8.8.8
       - 8.8.4.4
-      - 2001:4860:4860::8888
-      - 2001:4860:4860::8844
     mtu: 1400
     ctf:
       enabled: auto
-    freeDiameter: /etc/freeDiameter/smf.conf
-    {# TODO - Insert the poorly formatted info: part from https://github.com/s5uishida/open5gs_5gc_ueransim_nearby_upf_sample_config#changes-in-configuration-files-of-open5gs-5gc-c-plane #}
+    freeDiameter: {{ smf.freeDiameter | default('/etc/freeDiameter/smf.conf')}}
+    {# TODO Make below template more scalable by making it a for loop (sst, sd and dnn)#}
+    {% if smf_info %}
+    info:
+      - s_nssai:
+          - sst: {{ smf_info.sst }}
+            {% if smf_info.sd %}sd: {{ smf_info.sd }} {% endif %}
+            dnn:
+              {% for dnn in smf_info.dnns | default('internet') -%}
+              - {{ dnn }}
+              {% endfor %} {# Whitespace strip at the end of endfor causes incorrect 'tai:' indent #}
+        tai:
+          - plmn_id:
+              mcc: {{ mcc }}
+              mnc: {{ mnc }}
+            tac: {{ smf_info.tac }}
+    {% endif %}
 scp:
     sbi:
       - addr: 127.0.1.10
         port: 7777
 upf:
     pfcp:
-      {% for conf in smf.upf_confs | default([['10.45.0.1/16', 'internet']]) -%}
-      - addr: {{ conf[0] }}
-        dnn: {{ conf[1] }}
+      {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16', 'dnn': 'internet'}]) -%}
+      - addr: {{ conf.addr }}
+        dnn: {{ conf.dnn }}
       {% endfor %}
 parameter:
 max:

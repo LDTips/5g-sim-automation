@@ -16,7 +16,10 @@ amfConfigs:
 
 # List of supported S-NSSAIs by this gNB
 slices:
-  - sst: 1
+  {% for conf in gnb.slices | default([{'sst': 1}])%}
+  - sst: {{ conf.sst | default(1) }}
+    {% if conf.sd %}sd: {{ conf.sd }} {% endif %}
+  {% endfor %}
 
 # Indicates whether or not SCTP stream number errors should be ignored.
 ignoreStreamIds: true

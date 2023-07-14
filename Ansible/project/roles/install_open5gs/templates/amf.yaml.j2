@@ -37,10 +37,11 @@ amf:
           mcc: {{ mcc | default(999) }}
           mnc: {{ mnc | default(99) }}
         s_nssai:
-          {% for conf in amf.s_nssai_conf | default([{'sst': 1, 'sd': '000001'}])-%}
+          {% for conf in amf.s_nssai_conf | default([{'sst': 1}])-%}
           - sst: {{ conf.sst }}
-            sd: {{ conf.sd }}
+            {% if conf.sd is defined %}sd: {{ conf.sd }} {% endif %}
           {% endfor %}
+
     security:
         integrity_order : [ NIA2, NIA1, NIA0 ]
         ciphering_order : [ NEA0, NEA1, NEA2 ]

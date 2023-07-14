@@ -23,6 +23,7 @@ nssf:
           sst: {{ conf.sst }}
           {% if conf.sd %}sd: {{ conf.sd }} {% endif %}
       {% endfor %}
+
 scp:
     sbi:
       - addr: 127.0.1.10

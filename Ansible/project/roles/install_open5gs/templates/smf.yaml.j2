@@ -1,5 +1,5 @@
 logger:
-    file: /var/log/open5gs/{{ smf.log_filename | default ('smf.log')}}
+    file: /var/log/open5gs/{{ smf.log_filename | default ('smf.log') }}
 sbi:
     server:
       no_tls: true
@@ -13,23 +13,23 @@ sbi:
       cert: /etc/open5gs/tls/smf.crt
 smf:
     sbi:
-      - addr: {{smf.sbi_ip | default '127.0.0.4'}}
-
+      - addr: {{smf.sbi_ip | default ('127.0.0.4')}}
         port: 7777
     pfcp:
-      - addr: {{smf.pfcp_ip | default '127.0.0.4'}}
+      - addr: {{smf.pfcp_ip | default ('127.0.0.4')}}
     gtpc:
-      - addr: {{smf.gtpc_ip | default '127.0.0.4'}}
+      - addr: {{smf.gtpc_ip | default ('127.0.0.4')}}
     gtpu:
-      - addr: {{smf.gtpu_ip | default '127.0.0.4'}}
+      - addr: {{smf.gtpu_ip | default ('127.0.0.4')}}
     metrics:
-      - addr: {{smf.metrics_ip | default '127.0.0.4'}}
+      - addr: {{smf.metrics_ip | default ('127.0.0.4')}}
         port: 9090
     subnet:
       {% for conf in smf.subnet_confs | default([{'addr': '10.45.0.1/16', 'dnn':'internet'}]) -%}
       - addr: {{ conf.addr }}
         dnn: {{ conf.dnn }}
       {% endfor %}
+    
     dns:
       - 8.8.8.8
       - 8.8.4.4
@@ -38,7 +38,7 @@ smf:
       enabled: auto
     freeDiameter: {{ smf.freeDiameter | default('/etc/freeDiameter/smf.conf')}}
     {# TODO Make below template more scalable by making it a for loop (sst, sd and dnn)#}
-    {% if smf_info %}
+    {% if smf_info is defined %}
     info:
       - s_nssai:
           - sst: {{ smf_info.sst }}
@@ -47,6 +47,7 @@ smf:
               {% for dnn in smf_info.dnns | default('internet') -%}
               - {{ dnn }}
               {% endfor %} {# Whitespace strip at the end of endfor causes incorrect 'tai:' indent #}
+
         tai:
           - plmn_id:
               mcc: {{ mcc }}

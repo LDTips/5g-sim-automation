@@ -1,0 +1,9 @@
+---
+# Simplify the referencing of the IP addresses used for templating the configs
+ip_c_plane: hostvars['C-plane'].ansible_host
+ip_u_plane1: hostvars['U-plane1'].ansible_host
+ip_u_plane2: hostvars['U-plane2'].ansible_host
+
+ip_gnb1: hostvars['gnb1'].ansible_host
+ip_gnb2: hostvars['gnb2'].ansible_host
+ue: hostvars['ue'].ansible_host

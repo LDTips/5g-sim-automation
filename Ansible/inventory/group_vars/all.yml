@@ -1,9 +1,19 @@
 ---
 # Simplify the referencing of the IP addresses used for templating the configs
-ip_c_plane: hostvars['C-plane'].ansible_host
-ip_u_plane1: hostvars['U-plane1'].ansible_host
-ip_u_plane2: hostvars['U-plane2'].ansible_host
+ip_c_plane: "{{ hostvars['C-plane'].ansible_host }}"
+ip_u_plane1: "{{ hostvars['U-plane1'].ansible_host }}"
+ip_u_plane2: "{{ hostvars['U-plane2'].ansible_host }}"
 
 ip_gnb1: hostvars['gnb1'].ansible_host
 ip_gnb2: hostvars['gnb2'].ansible_host
 ue: hostvars['ue'].ansible_host
+
+# Info for registering the UE's
+OPc: 'E8ED289DEBA952E4283B54E88E6183CA'
+Ki:
+  - '465B5CE8B199B49FAA5F0A2EE238A6BC'
+  - 'FEC86BA6EB707ED08905757B1BB44B8F'
+  - '9E5944AEA94B81165C82FBF9F32DB751'
+  - '4AB1DEB05CA6CEB051FC98E77D026A84'
+  - '6C38A116AC280C454F59332EE35C8C4F'
+  - '2D609D4DB0AC5BF0D2C0DE267014DE0D'

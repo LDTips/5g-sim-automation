@@ -52,6 +52,6 @@
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
 
-- name: Restart the machine
-  ansible.builtin.reboot:
-    reboot_timeout: 180
+# - name: Restart the machine
+#   ansible.builtin.reboot:
+#     reboot_timeout: 180

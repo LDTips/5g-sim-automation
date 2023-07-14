@@ -1,0 +1,3 @@
+---
+
+clone_dest: "/home/{{ ansible_env.SUDO_USER }}/UERANSIM"

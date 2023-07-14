@@ -1,2 +1,12 @@
 ---
 install_mongodb: false
+
+upf:
+  pfcp_ip: "{{ ip_u_plane2 }}"
+  gtpu_ip: "{{ ip_u_plane2 }}"
+  subnet_confs:
+    - addr: "10.47.0.1/16"
+      dnn: 'ims'
+      dev: 'ogstun3'
+configs:
+  - 'upf'

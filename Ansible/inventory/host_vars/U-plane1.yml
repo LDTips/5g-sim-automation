@@ -1,2 +1,6 @@
 ---
 install_mongodb: false
+
+
+configs:
+  - 'upf'

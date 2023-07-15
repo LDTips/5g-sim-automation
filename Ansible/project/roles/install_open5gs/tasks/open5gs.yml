@@ -51,7 +51,9 @@
 - name: Change the machine hostname
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
+  register: hostname_task
 
-# - name: Restart the machine
-#   ansible.builtin.reboot:
-#     reboot_timeout: 180
+- name: Restart the machine
+  ansible.builtin.reboot:
+    reboot_timeout: 180
+  when: hostname_task is changed

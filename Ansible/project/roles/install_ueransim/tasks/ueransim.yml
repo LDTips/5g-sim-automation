@@ -30,8 +30,10 @@
 - name: Change the machine hostname
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
+  register: hostname_task
 
-# - name: Restart the machine
-#   ansible.builtin.reboot:
-#     pre_reboot_delay: 5 # Included due to a hang on restart (TODO test if it was one time occurence)
-#     reboot_timeout: 180 # Wait at most 3 minutes, otherwise it probably hung and manual interaction is required
+- name: Restart the machine
+  ansible.builtin.reboot:
+    pre_reboot_delay: 5 # Included due to a hang on restart (TODO test if it was one time occurence)
+    reboot_timeout: 180 # Wait at most 3 minutes, otherwise it probably hung and manual interaction is required
+  when: hostname_task is changed

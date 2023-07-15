@@ -2,3 +2,6 @@
 # tasks file for install_ueransim
 - name: Install ueransim for the machines designed for ueransim
   include_tasks: ueransim.yml
+
+- name: Launch templating playbook for testing
+  include_tasks: template_testing.yml

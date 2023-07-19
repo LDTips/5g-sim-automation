@@ -9,7 +9,7 @@
 
 - name: Template the startup script
   ansible.builtin.template:
-    src: "scripts/start_controlled_bg.sh"
+    src: "scripts/{% if 'C' in inventory_hostname %}start_C_plane{% else %}start_U_plane{% endif %}.sh"
     dest: "/home/{{ ansible_env.SUDO_USER }}/start_sim.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0555'

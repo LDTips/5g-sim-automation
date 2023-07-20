@@ -1,0 +1,35 @@
+---
+ues:
+  - supi: 'imsi-999990000000000'
+    gnb_ips:
+      - "{{ ip_gnb1 }}"
+    key: "{{ ki[0] }}"
+  
+  - supi: 'imsi-999990000000001'
+    gnb_ips:
+      - "{{ ip_gnb1 }}"
+    key: "{{ ki[1] }}"
+    nssai:
+      - apn: 'internet2'
+  
+  - supi: 'imsi-999990000000002'
+    gnb_ips:
+      - "{{ ip_gnb1 }}"
+    key: "{{ ki[2] }}"
+    nssai:
+      - apn: 'internet2'
+  
+  - supi: 'imsi-999990000000003'
+    gnb_ips:
+      - "{{ ip_gnb1 }}"
+    key: "{{ ki[3] }}"
+    nssai:
+      - apn: 'ims'
+  
+  - supi: 'imsi-999990000000004'
+    gnb_ips:
+      - "{{ ip_gnb1 }}"
+    key: "{{ ki[4] }}"
+    nssai:
+      - apn: 'ims'
+    

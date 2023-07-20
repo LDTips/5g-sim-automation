@@ -47,13 +47,13 @@ sessions:
     apn: {{ conf.apn }}
     slice:
       sst: {{ conf.sst }}
-      {% if conf.sd %}sd: {{ conf.sd }} {% endif %}
+      {% if conf.sd is defined %}sd: {{ conf.sd }} {% endif %}
   {% endfor %}
 
 # Configured NSSAI for this UE by HPLMN
 configured-nssai:
   - sst: {{ conf.sst | default(1) }}
-    {% if conf.sd %}sd: {{ conf.sd }} {% endif %}
+    {% if conf.sd is defined %}sd: {{ conf.sd }} {% endif %}
 
 # Default Configured NSSAI for this UE
 default-nssai:

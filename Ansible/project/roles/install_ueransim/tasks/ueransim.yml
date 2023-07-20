@@ -23,9 +23,9 @@
     dest: "{{ clone_dest }}"
     clone: yes
 
-- name: Compile the UERANSIM src code with Make
-  community.general.make:
-    chdir: "{{ clone_dest }}"
+# - name: Compile the UERANSIM src code with Make
+#   community.general.make:
+#     chdir: "{{ clone_dest }}"
 # Maybe this should be put into separate tasks file?
 - name: Change the machine hostname
   ansible.builtin.hostname:

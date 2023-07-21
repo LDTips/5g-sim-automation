@@ -19,7 +19,7 @@ smf:
     - addr: "{{ ip_u_plane1 }}"
       dnn: ['internet', 'internet2']
     - addr: "{{ ip_u_plane2 }}"
-      dnn: 'ims'
+      dnn: ['ims']
 
 configs:
   - 'amf'

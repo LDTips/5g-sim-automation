@@ -62,8 +62,13 @@ upf:
     pfcp:
       {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16', 'dnn': 'internet'}]) -%}
       - addr: {{ conf.addr }}
-        dnn: {{ conf.dnn }}
+        dnn: 
+          {% for dnn in conf.dnn -%}
+          - {{ dnn }}
+          {% endfor %}
+
       {% endfor %}
+  
 parameter:
 max:
 time:

@@ -1,10 +1,9 @@
-# ---
-# - name: Launch install_open5gs role for open5gs VMs
-#   hosts: open5gs
-#   # connection: local
-#   become: true
-#   roles:
-#     - install_open5gs
+---
+- name: Launch install_open5gs role for open5gs VMs
+  hosts: open5gs
+  become: true
+  roles:
+    - install_open5gs
 
 - name: Launch install ueransim role for ueransim VMs
   hosts: ueransim

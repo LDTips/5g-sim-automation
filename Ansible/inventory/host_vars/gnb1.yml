@@ -1,7 +1,5 @@
 ---
-link_ip: "{{ ip_gnb1 }}"
-ngap_ip: "{{ ip_gnb1 }}"
-gtp_ip: "{{ ip_gnb1 }}"
 
 gnb:
   AmfConfigs_ip: "{{ ip_c_plane }}"
+  gnb_ip: "{{ ip_gnb1 }}"

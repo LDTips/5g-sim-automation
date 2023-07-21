@@ -15,5 +15,7 @@
     mode: '0666'
   loop_control: 
     index_var: index
+  vars:
+    ue: "{{ item }}"
   loop: "{{ ues }}"
   when: inventory_hostname == 'ue'

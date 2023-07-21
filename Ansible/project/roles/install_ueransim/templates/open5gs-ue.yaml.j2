@@ -3,12 +3,12 @@ supi: '{{ ue.supi | default('imsi-999700000000001') }}'
 # Mobile Country Code value of HPLMN
 mcc: '{{ mcc | default('999') }}'
 # Mobile Network Code value of HPLMN (2 or 3 digits)
-mnc: '{{ mnc | default('70')}}'
+mnc: '{{ mnc | default('99')}}'
 # Routing Indicator
 routingIndicator: '0000'
 
 # Permanent subscription key
-key: {{ ue.key | default('465B5CE8B199B49FAA5F0A2EE238A6BC') }}'
+key: '{{ ue.key | default('465B5CE8B199B49FAA5F0A2EE238A6BC') }}'
 # Operator code (OP or OPC) of the UE
 op: '{{ ue.op | default('E8ED289DEBA952E4283B54E88E6183CA') }}'
 # This value specifies the OP type and it can be either 'OP' or 'OPC'
@@ -42,23 +42,21 @@ uacAcc:
 
 # Initial PDU sessions to be established
 sessions:
-  {% for conf in ue.nssai | default([{'apn': "internet", 'sst': 1}])%}
   - type: 'IPv4'
-    apn: {{ conf.apn }}
+    apn: {{ ue.nssai.apn | default('internet')}}
     slice:
-      sst: {{ conf.sst }}
-      {% if conf.sd is defined %}sd: {{ conf.sd }} {% endif %}
-  {% endfor %}
+      sst: {{ ue.nssai.sst | default(1) }}
+      {% if ue.nssai.sd is defined %}sd: {{ ue.nssai.sd }} {% endif %}
 
 # Configured NSSAI for this UE by HPLMN
 configured-nssai:
-  - sst: {{ conf.sst | default(1) }}
-    {% if conf.sd is defined %}sd: {{ conf.sd }} {% endif %}
+  - sst: {{ ue.nssai.sst | default(1) }}
+    {% if ue.nssai.sd is defined %}sd: {{ ue.nssai.sd }} {% endif %}
 
 # Default Configured NSSAI for this UE
 default-nssai:
-  - sst: {{ conf.sst | default(1) }}
-    sd: {{ conf.sd | default(1) }}
+  - sst: {{ ue.nssai.sst | default(1) }}
+    sd: {{ ue.nssai.sd | default(1) }}
 
 # Supported integrity algorithms by this UE
 integrity:

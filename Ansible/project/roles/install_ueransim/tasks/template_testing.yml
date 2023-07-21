@@ -19,3 +19,10 @@
     ue: "{{ item }}"
   loop: "{{ ues }}"
   when: inventory_hostname == 'ue'
+
+- name: Template the startup script
+  ansible.builtin.template:
+    src: "scripts/{% if 'gnb' in inventory_hostname %}start_gnb{% else %}start_ues{% endif %}.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/start_sim.sh"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0777'

@@ -11,6 +11,7 @@
         - lksctp-tools
         - iproute2
         - g++
+        - screen
         update_cache: yes
         state: present
     - name: Fetch cmake from snap
@@ -18,6 +19,7 @@
         name: cmake
         classic: true
 - name: Clone UERANSIM git repo
+  become: false
   ansible.builtin.git:
     repo: "https://github.com/aligungr/UERANSIM"
     dest: "{{ clone_dest }}"

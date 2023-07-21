@@ -7,6 +7,7 @@
     - apt-utils
     - software-properties-common
     - gnupg
+    - screen
     update_cache: yes
     state: present
 

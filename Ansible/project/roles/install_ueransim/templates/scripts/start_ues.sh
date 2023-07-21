@@ -1,9 +1,16 @@
 #!/bin/bash
 
-# Start U-Plane process
-# add -c <config path> to specify the config
-# e.g. screen -dm /bin/open5gs-upfd -c /path/to/some/upf_config.yaml
-screen -dm /bin/open5gs-upfd
+# Start ue process(s)
+# It is required to specify at least one config in the "config path array"
+# Remember - it can be handy to use $(pwd) variable inside "" strings
+
+config_paths=(
+    "/path/to/one/config"
+    "/path/to/another/config"
+)
+for path in "${config_paths[@]}"; do
+  screen -dm ./home/open5gs-ansible/UERANSIM/nr-ue -c "$path"
+done
 
 if [[ $EUID -ne 0 ]]; then
   echo "User who run the script was not root!"

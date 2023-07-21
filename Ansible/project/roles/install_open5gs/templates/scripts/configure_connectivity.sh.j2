@@ -1,0 +1,9 @@
+#!/bin/bash
+
+{% for tun in upf.subnet_confs | default([{'dev': 'ogstun', 'addr': '10.45.0.1/16'}]) %}
+ip tuntap add name {{ tun.dev }} mode tun
+ip addr add {{ tun.addr }} dev ogstun
+ip link set {{ tun.dev }} up
+iptables -t nat -A POSTROUTING -s {{ tun.addr }} ! -o {{ tun.dev }} -j MASQUERADE
+
+{% endfor %}

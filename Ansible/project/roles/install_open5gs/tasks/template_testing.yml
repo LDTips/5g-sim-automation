@@ -13,3 +13,11 @@
     dest: "/home/{{ ansible_env.SUDO_USER }}/start_sim.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
+
+- name: Template script for enabling connectivity
+  ansible.builtin.template:
+    src: "scripts/configure_connectivity.sh.j2"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/configure_connectivity.sh"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0777'
+  when: "'U' in inventory_hostname"

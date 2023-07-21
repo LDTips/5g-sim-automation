@@ -53,8 +53,13 @@
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
   register: hostname_task
-
+- name: Ensure ipv4 forwarding is enabled
+  ansible.builtin.lineinfile:
+    path: "/etc/sysctl.conf"
+    regexp: "net.ipv4.ip_forward="
+    line: net.ipv4.ip_forward=1
+  register: ipv4_forward_task
 - name: Restart the machine
   ansible.builtin.reboot:
     reboot_timeout: 180
-  when: hostname_task is changed
+  when: hostname_task is changed or ipv4_forward_task is changed

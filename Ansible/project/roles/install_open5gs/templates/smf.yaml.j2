@@ -54,10 +54,12 @@ smf:
               mnc: {{ mnc }}
             tac: {{ smf_info.tac }}
     {% endif %}
+
 scp:
     sbi:
       - addr: 127.0.1.10
         port: 7777
+
 upf:
     pfcp:
       {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16', 'dnn': 'internet'}]) -%}

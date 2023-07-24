@@ -8,8 +8,11 @@ config_paths=(
     "/path/to/one/config"
     "/path/to/another/config"
 )
+
+COUNTER=0
 for path in "${config_paths[@]}"; do
-  screen -dm ./home/open5gs-ansible/UERANSIM/nr-ue -c "$path"
+  screen -dm "ue${counter}" /home/open5gs-ansible/UERANSIM/build/nr-ue -c "$path"
+  COUNTER=$(( COUNTER+1 ))
 done
 
 if [[ $EUID -ne 0 ]]; then

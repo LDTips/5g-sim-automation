@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Adds neccessary networking configurations to ensure proper simulation setup
+
 {% for tun in upf.subnet_confs | default([{'dev': 'ogstun', 'addr': '10.45.0.1/16'}]) %}
 ip tuntap add name {{ tun.dev }} mode tun
 ip addr add {{ tun.addr }} dev {{ tun.dev }}

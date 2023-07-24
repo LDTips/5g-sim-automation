@@ -3,7 +3,7 @@
 # Start U-Plane process
 # add -c <config path> to specify the config
 # e.g. screen -dm /bin/open5gs-upfd -c /path/to/some/upf_config.yaml
-screen -dm /bin/open5gs-upfd
+screen -dmS upf /bin/open5gs-upfd
 
 if [[ $EUID -ne 0 ]]; then
   echo "User who run the script was not root!"

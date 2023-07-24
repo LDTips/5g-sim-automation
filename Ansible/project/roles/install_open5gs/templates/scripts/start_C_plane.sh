@@ -3,25 +3,25 @@
 # Start C-Plane processes
 # add -c <config path> to specify the configs for each element
 # e.g. screen -dm /bin/open5gs-ausf -c /path/to/some/ausf_config.yaml
-screen -dm /bin/open5gs-nrfd
+screen -dmS nrfd /bin/open5gs-nrfd
 sleep 0.5
-screen -dm /bin/open5gs-scpd
+screen -dmS scpd /bin/open5gs-scpd
 sleep 0.5
-screen -dm /bin/open5gs-amfd
+screen -dmS amfd /bin/open5gs-amfd
 sleep 0.5
-screen -dm /bin/open5gs-smfd
+screen -dmS smfd /bin/open5gs-smfd
 sleep 0.5
-screen -dm /bin/open5gs-ausfd
+screen -dmS ausfd /bin/open5gs-ausfd
 sleep 0.5
-screen -dm /bin/open5gs-udmd
+screen -dmS udmd /bin/open5gs-udmd
 sleep 0.5
-screen -dm /bin/open5gs-udrd
+screen -dmS udrd /bin/open5gs-udrd
 sleep 0.5
-screen -dm /bin/open5gs-pcfd
+screen -dmS pcfd /bin/open5gs-pcfd
 sleep 0.5
-screen -dm /bin/open5gs-nssfd
+screen -dmS nssfd /bin/open5gs-nssfd
 sleep 0.5
-screen -dm /bin/open5gs-bsfd
+screen -dmS bsfd /bin/open5gs-bsfd
 
 if [[ $EUID -ne 0 ]]; then
   echo "User who run the script was not root!"

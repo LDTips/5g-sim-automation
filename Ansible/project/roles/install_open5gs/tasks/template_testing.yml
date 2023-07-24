@@ -21,3 +21,11 @@
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
   when: "'U' in inventory_hostname"
+
+- name: Template script for adding subscribers to db
+  ansible.builtin.template:
+    src: "scripts/add_subscribers.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/add_subscribers.sh"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0777'
+  when: "'C' in inventory_hostname"

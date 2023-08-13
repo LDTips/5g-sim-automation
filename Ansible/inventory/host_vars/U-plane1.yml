@@ -1,16 +1,9 @@
 ---
-install_mongodb: false
+subnet_slice_end: 2  # Take elements 0 and 1
 
 upf:
   pfcp_ip: "{{ ip_u_plane1 }}"
   gtpu_ip: "{{ ip_u_plane1 }}"
-  subnet_confs:
-    - addr: "10.45.0.1/16"
-      dnn: 'internet'
-      dev: 'ogstun'
-    - addr: "10.46.0.1/16"
-      dnn: 'internet2'
-      dev: 'ogstun2'
 
 configs:
   - 'upf'

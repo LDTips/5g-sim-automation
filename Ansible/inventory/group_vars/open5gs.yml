@@ -1,0 +1,11 @@
+---
+subnet_confs:
+  - addr: "10.45.0.1/16"
+    dnn: 'internet'
+    dev: 'ogstun'
+  - addr: "10.46.0.1/16"
+    dnn: 'internet2'
+    dev: 'ogstun2'
+  - addr: "10.47.0.1/16"
+    dnn: 'ims'
+    dev: 'ogstun3'

@@ -2,7 +2,7 @@
 
 # Adds neccessary networking configurations to ensure proper simulation setup
 
-{% for tun in upf.subnet_confs | default([{'dev': 'ogstun', 'addr': '10.45.0.1/16'}]) %}
+{% for tun in subnet_confs[subnet_slice_start:subnet_slice_end] | default([{'dev': 'ogstun', 'addr': '10.45.0.1/16'}]) %}
 ip tuntap add name {{ tun.dev }} mode tun
 ip addr add {{ tun.addr }} dev {{ tun.dev }}
 ip link set {{ tun.dev }} up

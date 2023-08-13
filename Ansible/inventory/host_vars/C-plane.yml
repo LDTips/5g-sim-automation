@@ -1,19 +1,10 @@
 ---
-install_mongodb: true
 amf:
   ngap_ip: "{{ ip_c_plane }}"
 
 smf:
   pfcp_ip: "{{ ip_c_plane }}"
   gtpu_ip: "{{ ip_c_plane }}"
-
-  subnet_confs:
-    - addr: '10.45.0.1/16'
-      dnn: 'internet'
-    - addr: '10.46.0.1/16'
-      dnn: 'internet2'
-    - addr: '10.47.0.1/16'
-      dnn: 'ims'
   
   upf_confs:
     - addr: "{{ ip_u_plane1 }}"

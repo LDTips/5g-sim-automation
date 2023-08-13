@@ -64,7 +64,7 @@ upf:
       {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16'}]) -%}
       - addr: {{ conf.addr }}
         dnn:
-          {% for s_conf in subnet_confs[conf.dnn_slice_start | default(None):conf.dnn_slice_end | default(1)] -%}
+          {% for s_conf in subnet_confs[conf.dnn_slice_start | default(None):conf.dnn_slice_end | default(None)] -%}
           - {{ s_conf.dnn }}
           {% endfor %}
 

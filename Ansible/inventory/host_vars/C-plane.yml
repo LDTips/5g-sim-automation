@@ -8,9 +8,9 @@ smf:
   
   upf_confs:
     - addr: "{{ ip_u_plane1 }}"
-      dnn: ['internet', 'internet2']
+      dnn_slice_end: 2  # Take 0th and 1st dnn
     - addr: "{{ ip_u_plane2 }}"
-      dnn: ['ims']
+      dnn_slice_start: 2  # Take 2nd dnn
 
 configs:
   - 'amf'

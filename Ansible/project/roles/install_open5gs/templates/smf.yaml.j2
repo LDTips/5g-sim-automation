@@ -25,7 +25,7 @@ smf:
       - addr: {{smf.metrics_ip | default ('127.0.0.4')}}
         port: 9090
     subnet:
-      {% for conf in subnet_confs[subnet_slice_start:subnet_slice_end] | default([{'addr': '10.45.0.1/16', 'dnn': 'internet'}]) -%}
+      {% for conf in subnet_confs[subnet_slice_start | default(None):subnet_slice_end | default(None)] | default([{'addr': '10.45.0.1/16', 'dnn': 'internet'}]) -%}
       - addr: {{ conf.addr }}
         dnn: {{ conf.dnn }}
       {% endfor %}
@@ -61,12 +61,13 @@ scp:
 
 upf:
     pfcp:
-      {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16', 'dnn': 'internet'}]) -%}
+      {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16'}]) -%}
       - addr: {{ conf.addr }}
-        dnn: 
-          {% for dnn in conf.dnn -%}
-          - {{ dnn }}
+        dnn:
+          {% for s_conf in subnet_confs[conf.dnn_slice_start | default(None):conf.dnn_slice_end | default(1)] -%}
+          - {{ s_conf.dnn }}
           {% endfor %}
+
       {% endfor %}
   
 parameter:

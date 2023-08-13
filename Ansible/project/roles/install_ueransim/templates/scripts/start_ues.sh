@@ -11,7 +11,7 @@ config_paths=(
 
 COUNTER=0
 for path in "${config_paths[@]}"; do
-  screen -dm "ue${counter}" /home/open5gs-ansible/UERANSIM/build/nr-ue -c "$path"
+  screen -dmS "ue${counter}" /home/open5gs-ansible/UERANSIM/build/nr-ue -c "$path"
   COUNTER=$(( COUNTER+1 ))
 done
 

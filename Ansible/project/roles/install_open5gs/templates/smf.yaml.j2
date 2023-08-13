@@ -29,6 +29,7 @@ smf:
       - addr: {{ conf.addr }}
         dnn: {{ conf.dnn }}
       {% endfor %}
+    
     dns:
       - 8.8.8.8
       - 8.8.4.4
@@ -61,7 +62,7 @@ scp:
 
 upf:
     pfcp:
-      {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16'}]) -%}
+      {% for conf in smf.upf_confs | default([{'addr': '10.45.0.1/16', 'dnn_slice_end': 1}]) -%}
       - addr: {{ conf.addr }}
         dnn:
           {% for s_conf in subnet_confs[conf.dnn_slice_start | default(None):conf.dnn_slice_end | default(None)] -%}

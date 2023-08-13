@@ -1,0 +1,8 @@
+#!/bin/bash
+
+screen -dmS int_dump tcpdump -v -i enp0s8 -f "not host 192.168.56.1 and not arp" -w int_dump.pcap
+screen -dmS lo_dump tcpdump -v -i lo -w lo_dump.pcap
+
+{% for tun in subnet_confs[subnet_slice_start:subnet_slice_end] | default([{'dev': 'ogstun'}]) %}
+screen -dmS tun_dump_{{ tun.dev }} tcpdump -v -i {{ tun.dev }} -w {{ tun.dev }}_dump.pcap 
+{% endfor %}

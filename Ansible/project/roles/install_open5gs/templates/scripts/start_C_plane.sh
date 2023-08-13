@@ -3,6 +3,17 @@
 # Start C-Plane processes
 # add -c <config path> to specify the configs for each element
 # e.g. screen -dm /bin/open5gs-ausf -c /path/to/some/ausf_config.yaml
+
+if [[ $EUID -ne 0]]; then
+  echo "Please relaunch the script as root" > &2
+  exit 1
+
+if [[ $UID -ne 0 ]]; then
+  echo "User who run the script was not logged as root!"
+  echo "Remember - to check screens and kill open5gs processes, either login as sudo or execute every command with sudo"
+  echo ""
+fi
+
 screen -dmS nrfd /bin/open5gs-nrfd
 sleep 0.5
 screen -dmS scpd /bin/open5gs-scpd
@@ -23,11 +34,7 @@ screen -dmS nssfd /bin/open5gs-nssfd
 sleep 0.5
 screen -dmS bsfd /bin/open5gs-bsfd
 
-if [[ $EUID -ne 0 ]]; then
-  echo "User who run the script was not root!"
-  echo "Remember - to check screens either login as sudo execute every screen command with sudo"
-fi
 
 echo "Attach to screen to see the logs: screen -ls, then screen -r <name>"
 echo "Deattach from screen: ctrl + D inside a screen"
-echo "Terminate all screens: pkill screen"
+echo "Terminate the open5gs process: sudo pkill open5gs"

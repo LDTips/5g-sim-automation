@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # Adds neccessary networking configurations to ensure proper simulation setup
+if [[ $EUID -ne 0]]; then
+  echo "Please relaunch the script as root" > &2
+  exit 1
 
 {% for tun in subnet_confs[subnet_slice_start:subnet_slice_end] | default([{'dev': 'ogstun', 'addr': '10.45.0.1/16'}]) %}
 ip tuntap add name {{ tun.dev }} mode tun

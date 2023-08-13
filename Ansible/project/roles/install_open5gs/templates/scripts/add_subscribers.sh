@@ -3,6 +3,7 @@
 
 # Script adds all possible UE's to the C-Plane database
 # By default the UE's are added to 'internet' APN. To add them to different APN, use:
+
 # open5gs-dbctl add_ue_with_apn <imsi> <key> <opc> <apn>
 # To remove a user: open5gs-dbctl remove <imsi>
 # Remove all users: open5gs-dbctl reset

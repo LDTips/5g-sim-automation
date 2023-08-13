@@ -5,12 +5,17 @@
 # e.g. screen -dm /bin/open5gs-upfd -c /path/to/some/upf_config.yaml
 # WARNING - upf.log in /var/log/open5gs/upf.log (or in user specified path) can grow to very big sizes
 # If you run out of memory on the system, check this file and delete it it's size is very big (was 8 GB in my case)
-screen -dmS upf /bin/open5gs-upfd
 
-if [[ $EUID -ne 0 ]]; then
-  echo "User who run the script was not root!"
-  echo "Remember - to check screens either login as sudo or execute every screen command with sudo"
+if [[ $EUID -ne 0]]; then
+  echo "Please relaunch the script as root" > &2
+  exit 1
+
+if [[ $UID -ne 0 ]]; then
+  echo "User who run the script was not logged as root!"
+  echo "Remember - to check screens and kill open5gs processes, either login as sudo or execute every command with sudo"
+  echo ""
 fi
+screen -dmS upf /bin/open5gs-upfd
 
 echo "Attach to screen to see the logs: screen -ls, then screen -r <name>"
 echo "Deattach from screen: ctrl + D inside a screen"

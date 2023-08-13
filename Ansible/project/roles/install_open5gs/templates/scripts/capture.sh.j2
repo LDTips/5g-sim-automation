@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ $EUID -ne 0]]; then
+  echo "Please relaunch the script as root" > &2
+  exit 1
+
 screen -dmS int_dump tcpdump -v -i enp0s8 -f "not host 192.168.56.1 and not arp" -w int_dump.pcap
 screen -dmS lo_dump tcpdump -v -i lo -w lo_dump.pcap
 

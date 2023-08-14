@@ -1,7 +1,7 @@
 ---
-- name: Fetch required dependencies
+- name: Ensure required dependencies are present
   block:
-    - name: Fetch dependencies from apt
+    - name: Ensure neccessary apt packages are present
       ansible.builtin.apt:
         pkg:
         - dialog
@@ -14,28 +14,30 @@
         - screen
         update_cache: yes
         state: present
-    - name: Fetch cmake from snap
+
+    - name: Ensure cmake from snap is installed
       community.general.snap:
         name: cmake
         classic: true
-- name: Clone UERANSIM git repo
-  become: false
+
+- name: Ensure UERANSIM repository is present on system
+  become: false  # To avoid file ownership issues
   ansible.builtin.git:
     repo: "https://github.com/aligungr/UERANSIM"
     dest: "{{ clone_dest }}"
     clone: yes
 
-# - name: Compile the UERANSIM src code with Make
-#   community.general.make:
-#     chdir: "{{ clone_dest }}"
-# Maybe this should be put into separate tasks file?
-- name: Change the machine hostname
+- name: Compile the UERANSIM src code with Make
+  community.general.make:
+    chdir: "{{ clone_dest }}"
+
+- name: Ensure the machine hostname is equal to inventory_hostname
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
   register: hostname_task
 
-- name: Restart the machine
+- name: Restart the machine if needed
   ansible.builtin.reboot:
-    pre_reboot_delay: 5 # Included due to a hang on restart (TODO test if it was one time occurence)
-    reboot_timeout: 180 # Wait at most 3 minutes, otherwise it probably hung and manual interaction is required
+    pre_reboot_delay: 5 # Included due to a hang on restart
+    reboot_timeout: 180 # 3 minute timeout for restart. Manual intervention required if this task fails
   when: hostname_task is changed

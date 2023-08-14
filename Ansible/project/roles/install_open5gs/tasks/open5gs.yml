@@ -1,6 +1,6 @@
 ---
 # Tasks for open5gs installation
-- name: Install basic packages and update repo cache
+- name: Ensure basic packages are installed and update repo cache
   ansible.builtin.apt:
     pkg:
     - dialog
@@ -11,27 +11,27 @@
     update_cache: yes
     state: present
 
-- name: Add open5gs ppa repository
+- name: Ensure open5gs ppa repository is present
   ansible.builtin.apt_repository:
     repo: ppa:open5gs/latest
 
-- name: Install mongodb if needed
+- name: Ensure MongoDB is installed if required
   #include_tasks: mongodb.yml
   include_tasks: mongodb.yml
   when: install_mongodb == true
 
-- name: Install Open5gs
+- name: Ensure Open5GS is installed
   ansible.builtin.apt:
     name: open5gs
     state: present
 
-- name: Separately download Open5gs database cli tool
+- name: Ensure Open5gs database cli tool is present
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/open5gs/open5gs/main/misc/db/open5gs-dbctl
     dest: /usr/bin/open5gs-dbctl
     mode: '0555'
     
-- name: Find Open5gs services
+- name: Find and register Open5GS service symlink paths
   ansible.builtin.find:
     paths: "/etc/systemd/system/multi-user.target.wants"
     # paths: "/home/open5gs-ansible/test_del"
@@ -42,24 +42,26 @@
 
 # https://github.com/ansible/ansible/issues/77934 - if loop variable is empty, the task will not print any output
 # Should be "skipped" or "ok" if the loop doesn't execute at all
-- name: Remove Open5gs services from autostart
+- name: Ensure Open5gs services are removed from autostart
   ansible.builtin.file:
     path: "{{ item.path }}"
     state: absent
   loop: "{{ open5gs_services.files }}"
   when: open5gs_services.files | length > 0
 
-- name: Change the machine hostname
+- name: Ensure the machine hostname is as the inventory_hostname
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
   register: hostname_task
+
 - name: Ensure ipv4 forwarding is enabled
   ansible.builtin.lineinfile:
     path: "/etc/sysctl.conf"
     regexp: "net.ipv4.ip_forward="
     line: net.ipv4.ip_forward=1
   register: ipv4_forward_task
-- name: Restart the machine
+
+- name: Restart the machine if it is required
   ansible.builtin.reboot:
-    reboot_timeout: 180
+    reboot_timeout: 180  # 3 minute timeout for restart. Manual intervention required if this task fails
   when: hostname_task is changed or ipv4_forward_task is changed

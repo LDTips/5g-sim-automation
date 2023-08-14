@@ -1,26 +1,22 @@
 ---
 # Tasks for installing mongodb
-# if apt-key is not present, the following should be used:
-# - name: Add singing key for Mongodb without apt-key
-#   ansible.builtin.get_url:
-#     url: https://www.mongodb.org/static/pgp/server-4.4.asc 
-#     dest: /etc/apt/trusted.asc # or /etc/apt/trusted.gpg..d/trusted.asc
-#     # Refer to https://docs.ansible.com/ansible/latest/collections/ansible/builtin/apt_key_module.html
-- name: Add Apt signing key for Mongodb
+- name: Ensure apt signing key for Mongodb is present
   ansible.builtin.apt_key:
     url: https://www.mongodb.org/static/pgp/server-6.0.asc 
     state: present
-- name: Add mongodb repository
+  
+- name: Ensure mongodb repository is added
   ansible.builtin.apt_repository:
     repo: "deb [ arch=amd64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse"
     state: present
-- name: Update cache and install mongodb
+  
+- name: Update cache and ensure mongodb is installed
   ansible.builtin.apt:
     name: mongodb-org
     state: present
     update_cache: yes
 
-- name: Start mongodb daemon
+- name: Ensure MongoDB service is running
   ansible.builtin.systemd:
     name: mongod.service
     state: started
@@ -31,24 +27,18 @@
 - name: Wait 3s for mongodb daemon to start
   ansible.builtin.pause:
     seconds: 3
-- name: Register mongod status
+  
+- name: Register MongoDB daemon status
   ansible.builtin.systemd:
     name: mongod
   register: mongod_info
-- name: Check mongodb daemon
-  block:
-    - name: Invoke mongod fixer if daemon doesn't work
-      # ansible.builtin.systemd:
-      #   name: mongod.service
-      # register: mongod_info
-      fail:
-        msg: "Daemon not working!"
-      when: mongod_info.status['ActiveState'] != 'active'
-  rescue: # TODO
-    - name: Do some foo king stuff
-      debug:
-        msg: I'm at the bar
-- name: Make mongod autostart
+
+- name: Check MongoDB service status
+  fail:
+    msg: "MognoDB daemon is not working!"
+  when: mongod_info.status['ActiveState'] != 'active'
+
+- name: Ensure MognoDB daemon auto-starts
   ansible.builtin.systemd:
     name: mongod
     enabled: true

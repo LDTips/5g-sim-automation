@@ -1,0 +1,13 @@
+Everything should be run with sudo. It's recommended to sudo -s or sudo su -, then run the commands
+
+Instructions:
+- Modify the start_sim.sh to use the configuration file(s) according to the instructions in the script
+  and then start the script
+- After the simulation, stop the ue or gnb process(es) with respective commands: pkill ue; pkill gnb
+
+General notes:
+First check if the neccessary procceses are running with: screen -ls
+Attach to screen to see the logs: screen -r <name>
+To scroll through logs: use ctrl-A + esc to enter copy mode. To exit copy mode, click esc
+Deattach (exit) from screen: ctrl-A + D inside a screen
+Process termination can also be done manually with attaching to specific screens and ctrl + C

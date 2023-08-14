@@ -1,0 +1,18 @@
+Everything should be run with sudo. It's recommended to sudo -s or sudo su -, then run the commands
+
+Instructions:
+{% if 'smf' in configs or 'amf' in configs %}- Modify the add_subscribers.sh to line up with the configuration
+  and launch it to add subscribers to the db{% endif %}
+{% if 'upf' in configs %}- Launch the configure_connectivity.sh to enable interfaces and NAT rules for Open5GS U-plane{% endif %}
+- Modify the start_sim.sh to include the configurations that are in home/<user>/configs directory and then launch the script
+- After running the simulation, stop the open5gs and tcpdump processes with commands: pkill open5gs; pkill tcpdump
+- Analyze the captured packets in Wireshark
+
+General notes:
+First check if the neccessary procceses (open5gs and tcpdump) are running with: screen -ls
+Attach to screen to see the logs: screen -r <name>
+To scroll through logs: use ctrl-A + esc to enter copy mode. To exit copy mode, click esc
+Deattach (exit) from screen: ctrl-A + D inside a screen
+Process termination can also be done manually with attaching to specific screens and ctrl + C
+
+Open5gs logs are also available in /var/log/open5gs/ folder

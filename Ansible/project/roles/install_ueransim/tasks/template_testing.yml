@@ -5,7 +5,7 @@
     dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/gnb.yaml"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0666'
-  when: inventory_hostname != 'ue'
+  when: "gnb is defined"
 
 - name: Template UE configs for UERANSIM
   ansible.builtin.template:
@@ -14,11 +14,11 @@
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0666'
   loop_control: 
-    index_var: index
+    index_var: index  # To number the files
   vars:
-    ue: "{{ item }}"
+    ue: "{{ item }}"  # The j2 template references to ue, not item, hence this needs to be specified
   loop: "{{ ues }}"
-  when: inventory_hostname == 'ue'
+  when: "ues is defined"
 
 - name: Template the startup script
   ansible.builtin.template:

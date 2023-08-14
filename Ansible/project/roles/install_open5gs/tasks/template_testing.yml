@@ -1,39 +1,55 @@
 ---
+- name: Create directories for scripts if not present
+  ansible.builtin.file:
+    path: "/home/{{ ansible_env.SUDO_USER }}/{{item}}"
+    state: directory
+  loop:
+    - "configs"
+    - "scripts"
+    - "captures"
+  
 - name: Template specified config files for Open5gs
   ansible.builtin.template:
     src: "{{ item }}.yaml.j2"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/{{ item }}.yaml"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/configs/{{ item }}.yaml"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0666'
   loop: "{{ configs }}"
 
 - name: Template the startup script
   ansible.builtin.template:
-    src: "scripts/{% if 'C' in inventory_hostname %}start_C_plane{% else %}start_U_plane{% endif %}.sh"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/start_sim.sh"
+    src: "scripts/{% if 'amf' in confs or 'smf' in confs %}start_C_plane{% else %}start_U_plane{% endif %}.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_sim.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
 
 - name: Template script for enabling connectivity
   ansible.builtin.template:
     src: "scripts/configure_connectivity.sh.j2"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/configure_connectivity.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/configure_connectivity.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
-  when: "'U' in inventory_hostname"
+  when: "'upf' in configs"
 
 - name: Template script for packet capture
   ansible.builtin.template:
     src: "scripts/capture.sh.j2"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/capture.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/capture.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
-  when: "'U' in inventory_hostname"
+  # when: "'U' in inventory_hostname"
 
 - name: Template script for adding subscribers to db
   ansible.builtin.template:
     src: "scripts/add_subscribers.sh"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/add_subscribers.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/add_subscribers.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
-  when: "'C' in inventory_hostname"
+  when: "'amf' in confs or 'smf' in confs"
+
+- name: Template the instruction text file
+  ansible.builtin.template:
+    src: instruction.txt
+    dest: "/home/{{ ansible_env.SUDO_USER }}/instruction.txt.j2"
+    mode: '0444'
+  

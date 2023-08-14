@@ -1,8 +1,8 @@
 ---
 # tasks file for install_open5gs role
-- name: Install Open5gs for the machines designed for Open5gs
+- name: Ensure Open5GS is installed
   include_tasks: open5gs.yml
   when: install
 
-- name: Launch templating playbook for testing
-  include_tasks: template_testing.yml
+- name: Template neccessary scripts and configs
+  include_tasks: template.yml

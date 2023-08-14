@@ -10,5 +10,5 @@ ip tuntap add name {{ tun.dev }} mode tun
 ip addr add {{ tun.addr }} dev {{ tun.dev }}
 ip link set {{ tun.dev }} up
 iptables -t nat -A POSTROUTING -s {{ tun.addr }} ! -o {{ tun.dev }} -j MASQUERADE
-
+echo "Setup {{ tun.dev }} with addr {{ tun.addr }}"
 {% endfor %}

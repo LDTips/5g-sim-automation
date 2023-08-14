@@ -2,7 +2,7 @@
 
 # Start gnb process
 # It is required to add -c <config path> to specify the config
-# e.g. screen -dm ./home/open5gs-ansible/UERANSIM/nr-gnb -c /path/to/some/gnb/config.yaml
+# e.g. screen -dmS ./home/open5gs-ansible/UERANSIM/nr-gnb -c /path/to/some/gnb/config.yaml
 
 if [[ $EUID -ne 0]]; then
   echo "Please relaunch the script as root" > &2
@@ -15,7 +15,3 @@ if [[ $UID -ne 0 ]]; then
 fi
 
 screen -dmS gnb /home/open5gs-ansible/UERANSIM/build/nr-gnb -c # INSERT CONFIG PATH HERE
-
-echo "Attach to screen to see the logs: screen -ls, then screen -r <name>"
-echo "Deattach from screen: ctrl + D inside a screen"
-echo "Terminate all screens: pkill screen"

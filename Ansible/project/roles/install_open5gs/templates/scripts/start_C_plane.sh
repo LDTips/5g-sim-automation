@@ -33,8 +33,3 @@ sleep 0.5
 screen -dmS nssfd /bin/open5gs-nssfd
 sleep 0.5
 screen -dmS bsfd /bin/open5gs-bsfd
-
-
-echo "Attach to screen to see the logs: screen -ls, then screen -r <name>"
-echo "Deattach from screen: ctrl + D inside a screen"
-echo "Terminate the open5gs process: sudo pkill open5gs"

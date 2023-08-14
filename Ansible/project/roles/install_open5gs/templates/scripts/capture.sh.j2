@@ -4,9 +4,11 @@ if [[ $EUID -ne 0]]; then
   echo "Please relaunch the script as root" > &2
   exit 1
 
-screen -dmS int_dump tcpdump -v -i enp0s8 -f "not host 192.168.56.1 and not arp" -w int_dump.pcap
-screen -dmS lo_dump tcpdump -v -i lo -w lo_dump.pcap
+screen -dmS int_tcpdump tcpdump -v -i enp0s8 -f "not host 192.168.56.1 and not arp and not port 5353" -w ../captures/int_dump.pcap
+screen -dmS lo_tcpdump tcpdump -v -i lo -w ../captures/lo_dump.pcap
 
+{% if 'upf' in configs %}
 {% for tun in subnet_confs[subnet_slice_start:subnet_slice_end] | default([{'dev': 'ogstun'}]) %}
-screen -dmS tun_dump_{{ tun.dev }} tcpdump -v -i {{ tun.dev }} -w {{ tun.dev }}_dump.pcap 
+screen -dmS tun_tcpdump_{{ tun.dev }} tcpdump -v -i {{ tun.dev }} -w ../captures/{{ tun.dev }}_dump.pcap 
 {% endfor %}
+{% endif %}

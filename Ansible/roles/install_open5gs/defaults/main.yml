@@ -4,3 +4,20 @@ install_mongodb: false
 # Slicing defaults
 subnet_slice_start: null
 subnet_slice_end: null
+subnet_confs:
+  - addr: '10.45.0.1/16'
+    dnn: 'internet'
+    dev: 'ogstun'
+
+all_configs:
+  - 'amf'
+  - 'ausf'
+  - 'bsf'
+  - 'nrf'
+  - 'nssf'
+  - 'pcf'
+  - 'scp'
+  - 'smf'
+  - 'udm'
+  - 'udr'
+  - 'upf'

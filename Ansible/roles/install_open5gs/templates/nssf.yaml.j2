@@ -21,7 +21,7 @@ nssf:
         port: 7777
         s_nssai:
           sst: {{ conf.sst }}
-          {% if conf.sd %}sd: {{ conf.sd }} {% endif %}
+          {% if conf.sd is defined %}sd: {{ conf.sd }} {% endif %}
       {% endfor %}
 
 scp:

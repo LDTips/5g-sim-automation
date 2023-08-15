@@ -6,7 +6,7 @@ upf:
     gtpu:
       - addr: {{ upf.gtpu_ip | default('127.0.0.7') }}
     subnet:
-      {% for conf in subnet_confs[subnet_slice_start | default(None):subnet_slice_end | default(None)] | default([{'addr': '10.45.0.1/16', 'dnn': 'internet', 'dev': 'ogstun'}]) -%}
+      {% for conf in subnet_confs[subnet_slice_start | default(None):subnet_slice_end | default(None)] -%}
       - addr: {{ conf.addr }}
         dnn: {{ conf.dnn }}
         dev: {{ conf.dev }}

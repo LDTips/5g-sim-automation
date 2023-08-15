@@ -2,8 +2,8 @@
 ues:
   - supi: 'imsi-999990000000000'
     gnb_ips:
-    - "{{ ip_gnb1 }}"
+    - "{{ ip_radio }}"
 
 gnb:
-  amfConfigs_ip: "{{ ip_core }}"
+  AmfConfigs_ip: "{{ ip_core }}"
   gnb_ip: "{{ ip_radio }}"

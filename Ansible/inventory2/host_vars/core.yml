@@ -4,3 +4,7 @@ amf:
 
 upf:
   gtpu_ip: "{{ ip_core }}"
+
+configs:
+  - 'amf'
+  - 'upf'

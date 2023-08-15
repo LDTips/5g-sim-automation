@@ -1,7 +1,7 @@
 ---
-- name: Create directories for scripts if not present
+- name: Create directories for content if not present
   ansible.builtin.file:
-    path: "/home/{{ ansible_env.SUDO_USER }}/{{item}}"
+    path: "/home/{{ ansible_env.SUDO_USER }}/{{ item }}"
     state: directory
   loop:
     - "configs"
@@ -16,12 +16,21 @@
     mode: '0666'
   loop: "{{ configs }}"
 
-- name: Template the startup script
+- name: Template the startup script for C-plane
   ansible.builtin.template:
-    src: "scripts/{% if 'amf' in confs or 'smf' in confs %}start_C_plane{% else %}start_U_plane{% endif %}.sh"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_sim.sh"
+    src: "scripts/start_C_plane.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_cplane.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
+  when: "'amf' in configs or 'smf' in configs"
+
+- name: Template the startup script for U-plane
+  ansible.builtin.template:
+    src: "scripts/start_U_plane.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_uplane.sh"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0777'
+  when: "'upf' in configs"
 
 - name: Template script for enabling connectivity
   ansible.builtin.template:
@@ -45,11 +54,11 @@
     dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/add_subscribers.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
-  when: "'amf' in confs or 'smf' in confs"
+  when: "'amf' in configs or 'smf' in configs"
 
 - name: Template the instruction text file
   ansible.builtin.template:
-    src: instruction.txt
-    dest: "/home/{{ ansible_env.SUDO_USER }}/instruction.txt.j2"
+    src: "instruction.txt.j2"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/instruction.txt"
     mode: '0444'
   

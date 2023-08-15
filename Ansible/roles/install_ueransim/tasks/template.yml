@@ -1,8 +1,16 @@
 ---
-- name: Template gnb config files for UERANSIM
+- name: Create directories for content if not present
+  ansible.builtin.file:
+    path: "/home/{{ ansible_env.SUDO_USER }}/{{ item }}"
+    state: directory
+  loop:
+    - "configs"
+    - "scripts"
+
+- name: Template gnb config file for UERANSIM
   ansible.builtin.template:
     src: "open5gs-gnb.yaml.j2"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/gnb.yaml"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/configs/gnb.yaml"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0666'
   when: "gnb is defined"
@@ -10,7 +18,7 @@
 - name: Template UE configs for UERANSIM
   ansible.builtin.template:
     src: "open5gs-ue.yaml.j2"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/template_test/ue{{ index }}.yaml"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/configs/ue{{ index }}.yaml"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0666'
   loop_control: 
@@ -20,9 +28,18 @@
   loop: "{{ ues }}"
   when: "ues is defined"
 
-- name: Template the startup script
+- name: Template the startup script for gnb
   ansible.builtin.template:
-    src: "scripts/{% if 'gnb' in inventory_hostname %}start_gnb{% else %}start_ues{% endif %}.sh"
-    dest: "/home/{{ ansible_env.SUDO_USER }}/start_sim.sh"
+    src: "scripts/start_gnb.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_gnb.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
+  when: "'gnb' is defined"
+
+- name: Template the startup script for ues
+  ansible.builtin.template:
+    src: "scripts/start_ues.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_ues.sh"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0777'
+  when: "'ues' is defined"

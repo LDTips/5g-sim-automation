@@ -2,9 +2,11 @@ Everything should be run with sudo. It's recommended to sudo -s or sudo su -, th
 
 Instructions:
 {% if 'smf' in configs or 'amf' in configs %}- Modify the add_subscribers.sh to line up with the configuration
-  and launch it to add subscribers to the db{% endif %}
-{% if 'upf' in configs %}- Launch the configure_connectivity.sh to enable interfaces and NAT rules for Open5GS U-plane{% endif %}
-- Modify the start_sim.sh to include the configurations that are in home/<user>/configs directory and then launch the script
+  and launch it to add subscribers to the db if required. Reset the db with open5gs-dbctl beforehand if needed{% endif +%}
+{% if 'upf' in configs %}- Launch the configure_connectivity.sh to enable interfaces and NAT rules for Open5GS U-plane{% endif +%}
+- Start the capture.sh to capture packets
+- Modify the start_sim.sh to include the {% for i in configs %}{{i}} {% endfor %}configurations that are in home/<user>/configs directory
+  and then launch the script. Ignore configurations not listed above
 - After running the simulation, stop the open5gs and tcpdump processes with commands: pkill open5gs; pkill tcpdump
 - Analyze the captured packets in Wireshark
 

@@ -11,3 +11,10 @@
     - name: Display command output
       ansible.builtin.debug:
         msg: " {{ output.stdout }}"
+    - name: Check current path
+      ansible.builtin.shell:
+        "echo $(pwd)"
+      register: result
+    - name: Print the result
+      ansible.builtin.debug:
+        msg: " {{ result.stdout }}"

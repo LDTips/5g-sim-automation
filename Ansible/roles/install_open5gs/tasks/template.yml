@@ -1,4 +1,21 @@
 ---
+- name: Create directory for open5gs backup if not present
+  ansible.builtin.file:
+    dest: "/etc/open5gs_backup"
+    state: directory
+- name: Backup default Open5GS config files
+  ansible.builtin.copy:
+    remote_src: true
+    src: "/etc/open5gs/"
+    dest: "/etc/open5gs_backup"
+- name: Template new default configs without IPv6
+  ansible.builtin.template:
+    src: "{{ item }}.yaml.j2"
+    dest: "/etc/open5gs/{{ item }}.yaml"
+    owner: "root"
+    mode: '0666'
+  loop: "{{ all_configs }}"
+
 - name: Create directories for content if not present
   ansible.builtin.file:
     path: "/home/{{ ansible_env.SUDO_USER }}/{{ item }}"

@@ -4,9 +4,10 @@
 # add -c <config path> to specify the configs for each element
 # e.g. screen -dm /bin/open5gs-ausf -c /path/to/some/ausf_config.yaml
 
-if [[ $EUID -ne 0]]; then
-  echo "Please relaunch the script as root" > &2
+if [[ $EUID -ne 0 ]]; then
+  echo "Please relaunch the script as root" >&2
   exit 1
+fi
 
 if [[ $UID -ne 0 ]]; then
   echo "User who run the script was not logged as root!"

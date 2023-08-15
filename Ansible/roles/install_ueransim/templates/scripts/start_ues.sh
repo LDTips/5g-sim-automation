@@ -4,9 +4,10 @@
 # It is required to specify at least one config in the "config_paths" array
 # Paths can be relative. For example, use ../configs/ue0.yaml
 
-if [[ $EUID -ne 0]]; then
-  echo "Please relaunch the script as root" > &2
+if [[ $EUID -ne 0 ]]; then
+  echo "Please relaunch the script as root" >&2
   exit 1
+fi
 
 if [[ $UID -ne 0 ]]; then
   echo "User who run the script was not logged as root!"

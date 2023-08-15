@@ -4,9 +4,10 @@
 # It is required to add -c <config path> to specify the config
 # e.g. screen -dmS ./home/open5gs-ansible/UERANSIM/nr-gnb -c /path/to/some/gnb/config.yaml
 
-if [[ $EUID -ne 0]]; then
-  echo "Please relaunch the script as root" > &2
+if [[ $EUID -ne 0 ]]; then
+  echo "Please relaunch the script as root" >&2
   exit 1
+fi
 
 if [[ $UID -ne 0 ]]; then
   echo "User who run the script was not logged as root!"

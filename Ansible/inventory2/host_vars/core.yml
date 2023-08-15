@@ -1,0 +1,6 @@
+---
+amf:
+  ngap_ip: "{{ ip_core }}"
+
+upf:
+  gtpu_ip: "{{ ip_core }}"

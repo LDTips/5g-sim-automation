@@ -1,0 +1,5 @@
+[open5gs]
+core ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.110
+
+[ueransim]
+radio ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.160

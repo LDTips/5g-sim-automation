@@ -1,0 +1,7 @@
+---
+ues:
+  - supi: 'imsi-999990000000000'
+
+gnb:
+  amfConfigs_ip: "{{ ip_core }}"
+  gnb_ip: "{{ ip_radio }}"

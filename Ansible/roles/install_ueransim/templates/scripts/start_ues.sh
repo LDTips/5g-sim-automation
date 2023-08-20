@@ -24,4 +24,5 @@ COUNTER=0
 for path in "${config_paths[@]}"; do
   screen -dmS "ue${COUNTER}" /home/open5gs-ansible/UERANSIM/build/nr-ue -c "$path"
   COUNTER=$(( COUNTER+1 ))
+  sleep 2  # To better separate different UE registrations
 done

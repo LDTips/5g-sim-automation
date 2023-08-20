@@ -34,7 +34,7 @@
     dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_gnb.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
-  when: "'gnb' is defined"
+  when: "gnb is defined"
 
 - name: Template the startup script for ues
   ansible.builtin.template:
@@ -42,4 +42,4 @@
     dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/start_ues.sh"
     owner: "{{ ansible_env.SUDO_USER }}"
     mode: '0777'
-  when: "'ues' is defined"
+  when: "ues is defined"

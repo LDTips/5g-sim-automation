@@ -1,9 +1,5 @@
 [open5gs]
-C-plane ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.110
-U-plane1 ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.120
-U-plane2 ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.130
+core ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.110
 
 [ueransim]
-gnb1 ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.140
-gnb2 ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.150
-ue ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.160
+radio ansible_ssh_user=open5gs-ansible ansible_ssh_pass=123 ansible_sudo_pass=123 ansible_host=192.168.56.160

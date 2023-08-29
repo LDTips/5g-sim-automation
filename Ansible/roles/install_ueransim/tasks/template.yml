@@ -6,6 +6,14 @@
   loop:
     - "configs"
     - "scripts"
+    - "captures"
+
+- name: Template the capture script
+  ansible.builtin.template:
+    src: "scripts/capture.sh"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/scripts/capture.sh"
+    owner: "{{ ansible_env.SUDO_USER }}"
+    mode: '0777'
 
 - name: Template gnb config file for UERANSIM
   ansible.builtin.template:

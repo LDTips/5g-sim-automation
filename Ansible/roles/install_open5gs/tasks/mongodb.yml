@@ -2,17 +2,19 @@
 # Tasks for installing mongodb
 - name: Ensure apt signing key for Mongodb is present
   ansible.builtin.apt_key:
-    url: https://www.mongodb.org/static/pgp/server-6.0.asc 
+    url: https://www.mongodb.org/static/pgp/server-4.4.asc 
     state: present
   
 - name: Ensure mongodb repository is added
   ansible.builtin.apt_repository:
-    repo: "deb [ arch=amd64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse"
+    repo: "deb [ arch=amd64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse"
     state: present
   
-- name: Update cache and ensure mongodb is installed
+- name: Update cache and ensure mongodb and mongosh is installed
   ansible.builtin.apt:
-    name: mongodb-org
+    pkg: 
+      - mongodb-org
+      - mongodb-mongosh
     state: present
     update_cache: yes
 

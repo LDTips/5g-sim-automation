@@ -1,5 +1,5 @@
 ---
-install: false
+install: true
 # Simplify the referencing of the IP addresses used for templating the configs
 ip_core: "{{ hostvars['core'].ansible_host }}"
 

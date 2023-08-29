@@ -24,12 +24,13 @@
   become: false  # To avoid file ownership issues
   ansible.builtin.git:
     repo: "https://github.com/aligungr/UERANSIM"
-    dest: "{{ clone_dest }}"
+    dest: "/home/{{ ansible_env.SUDO_USER }}/UERANSIM"
     clone: yes
 
 - name: Compile the UERANSIM src code with Make
+  become: false
   community.general.make:
-    chdir: "{{ clone_dest }}"
+    chdir: "/home/{{ ansible_env.SUDO_USER }}/UERANSIM"
 
 - name: Ensure the machine hostname is equal to inventory_hostname
   ansible.builtin.hostname:

@@ -1,4 +1,5 @@
 ---
+install: true
 install_mongodb: false
 
 # Slicing defaults

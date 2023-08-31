@@ -35,7 +35,7 @@
     name: mongod
   register: mongod_info
 
-- name: Check MongoDB service status
+- name: End the playbook execution if mongodb does not work
   fail:
     msg: "MognoDB daemon is not working!"
   when: mongod_info.status['ActiveState'] != 'active'

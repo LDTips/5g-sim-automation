@@ -15,4 +15,4 @@ if [[ $UID -ne 0 ]]; then
   echo ""
 fi
 
-screen -dmS gnb /home/open5gs-ansible/UERANSIM/build/nr-gnb -c # INSERT CONFIG PATH HERE
+screen -dmS gnb /home/{{ ansible_env.SUDO_USER }}/UERANSIM/build/nr-gnb -c # INSERT CONFIG PATH HERE
